@@ -21,6 +21,10 @@ namespace Flytachi\Winter\Base;
  */
 final class Tool
 {
+    private function __construct()
+    {
+    }
+
     /**
      * Determines if a given value is a valid URL.
      *

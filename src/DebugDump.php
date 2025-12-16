@@ -6,6 +6,10 @@ namespace Flytachi\Winter\Base;
 
 final class DebugDump
 {
+    private function __construct()
+    {
+    }
+
     public static function dump(mixed ...$values): never
     {
         if (PHP_SAPI === 'cli') {

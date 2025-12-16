@@ -35,6 +35,10 @@ use DateException;
  */
 final class TimeTool
 {
+    private function __construct()
+    {
+    }
+
     /**
      * Checks whether the given string is a valid date and time.
      *
