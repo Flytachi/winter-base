@@ -1,0 +1,31 @@
+{
+    "name": "flytachi/winter-base",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "Flytachi\\Winter\\Base\\": "src/"
+        },
+        "files": [
+            "BaseFunctions.php"
+        ]
+    },
+    "require": {
+        "php": ">=8.3",
+        "psr/log": "^3.0"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "@stable"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/flytachi/winter-base.git"
+    },
+    "authors": [
+        {
+            "name": "Flytachi",
+            "email": "jasur.rakhmatov03@gmail.com"
+        }
+    ]
+}
