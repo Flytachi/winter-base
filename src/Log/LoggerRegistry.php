@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Flytachi\Winter\Base;
+namespace Flytachi\Winter\Base\Log;
 
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Monolog\Registry;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Registry;
-use Monolog\Logger;
 
 final class LoggerRegistry
 {

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Flytachi\Winter\Base;
 
 use Closure;
+use Flytachi\Winter\Base\Exception\MaxAttemptsExceededException;
+use Flytachi\Winter\Base\Log\LoggerRegistry;
 use LogicException;
 
 /**

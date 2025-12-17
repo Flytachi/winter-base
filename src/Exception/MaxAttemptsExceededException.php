@@ -1,6 +1,6 @@
 <?php
 
-namespace Flytachi\Winter\Base;
+namespace Flytachi\Winter\Base\Exception;
 
 use Throwable;
 
