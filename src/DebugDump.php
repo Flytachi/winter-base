@@ -96,9 +96,9 @@ final class DebugDump
         $line = $backtrace[3]['line'];
         $file = $backtrace[3]['file'];
 
-        defined('EXTRA_STARTUP_TIME') or define('EXTRA_STARTUP_TIME', microtime(true));
-        if (EXTRA_STARTUP_TIME !== null) {
-            $delta = round(microtime(true) - EXTRA_STARTUP_TIME, 3);
+        defined('WINTER_STARTUP_TIME') or define('WINTER_STARTUP_TIME', microtime(true));
+        if (WINTER_STARTUP_TIME !== null) {
+            $delta = round(microtime(true) - WINTER_STARTUP_TIME, 3);
             $delta = ($delta < 0.001) ? 0.001 : $delta;
         } else {
             $delta = null;

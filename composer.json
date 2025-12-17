@@ -16,6 +16,7 @@
         "psr/log": "^3.0"
     },
     "require-dev": {
+        "monolog/monolog": "^3.0",
         "squizlabs/php_codesniffer": "@stable"
     },
     "authors": [
