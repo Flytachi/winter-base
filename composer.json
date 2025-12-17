@@ -2,7 +2,7 @@
     "name": "flytachi/winter-base",
     "type": "library",
     "license": "MIT",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "autoload": {
         "psr-4": {
             "Flytachi\\Winter\\Base\\": "src/"
