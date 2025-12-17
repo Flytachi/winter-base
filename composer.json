@@ -1,5 +1,6 @@
 {
     "name": "flytachi/winter-base",
+    "description": "Winter framework base component",
     "type": "library",
     "license": "MIT",
     "version": "1.1.2",
