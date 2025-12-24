@@ -246,3 +246,16 @@ if (!function_exists('dashAsciiToCamelCase')) {
         return implode('', $result);
     }
 }
+
+if (!function_exists('timezoneToOffset')) {
+    function timezoneToOffset(string $timezone): ?string
+    {
+        try {
+            $tz = new \DateTimeZone($timezone);
+            $dt = new \DateTime('now', $tz);
+            return $dt->format('P');
+        } catch (DateInvalidTimeZoneException|DateMalformedStringException $e) {
+            return null;
+        }
+    }
+}
