@@ -12,7 +12,7 @@ trait ExceptionTrait
      * @throws self
      */
     public static function throw(
-        string $message,
+        string $message = "",
         HttpCode|int|null $httpCode = null,
         ?\Throwable $previous = null
     ) {
