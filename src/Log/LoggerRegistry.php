@@ -4,114 +4,94 @@ declare(strict_types=1);
 
 namespace Flytachi\Winter\Base\Log;
 
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-use Monolog\Registry;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 final class LoggerRegistry
 {
-    /** @var LoggerInterface|null */
-    private static ?LoggerInterface $logger = null;
+    /** Root logger, set once via setInstance() or auto-initialized. */
+    private static ?LoggerInterface $root = null;
+
+    /** @var array<string, LoggerInterface> named logger cache */
+    private static array $named = [];
+
+    private function __construct() {}
+    private function __clone() {}
+
+    // ── Public API ────────────────────────────────────────────────────────────
 
     /**
-     * @param LoggerInterface $logger
+     * Override the root logger (call before first log write).
      */
     public static function setInstance(LoggerInterface $logger): void
     {
-        self::$logger = $logger;
+        self::$root  = $logger;
+        self::$named = []; // flush named cache on root change
     }
 
     /**
-     * @param string|null $name
-     * @return LoggerInterface
+     * Resolve a logger by name.
+     * Named loggers are cached — no allocation on repeated calls.
      */
     public static function instance(?string $name = null): LoggerInterface
     {
-        self::init();
-
-        if ($name !== null && self::$logger instanceof Logger) {
-            if (Registry::hasLogger($name)) {
-                return Registry::getInstance($name);
-            }
-
-            $newLogger = self::$logger->withName($name);
-            Registry::addLogger($newLogger);
-            return $newLogger;
+        if (self::$root === null) {
+            self::init();
         }
 
-        return self::$logger;
+        if ($name === null) {
+            return self::$root;
+        }
+
+        return self::$named[$name] ??= self::fork($name);
     }
 
-    private function __construct()
-    {
-    }
-    private function __clone()
-    {
-    }
+    // ── Internals ─────────────────────────────────────────────────────────────
 
-    public function __serialize(): array
+    private static function fork(string $name): LoggerInterface
     {
-        return [];
-    }
-
-    public function __unserialize(array $data): void
-    {
-        throw new \Exception("Cannot unserialize a singleton.");
+        if (self::$root instanceof \Monolog\Logger) {
+            return self::$root->withName($name);
+        }
+        return self::$root;
     }
 
     private static function init(): void
     {
-        if (self::$logger !== null) {
+        if (!class_exists(\Monolog\Logger::class)) {
+            self::$root = new NullLogger();
             return;
         }
 
-        if (class_exists(Logger::class)) {
-            self::$logger = new Logger('BASE');
+        $logger = new \Monolog\Logger('app');
 
-            try {
-                $projectRoot = self::findRootPath();
-                if ($projectRoot) {
-                    $logDir = $projectRoot . '/storage/logs';
-                    if (!is_dir($logDir) && !@mkdir($logDir, 0775, true)) {
-                        throw new \RuntimeException(
-                            sprintf('Log directory "%s" could not be created.', $logDir)
-                        );
-                    }
-                    $logFile = $logDir . '/winter-base.log';
-                    self::$logger->pushHandler(new StreamHandler($logFile));
+        try {
+            $root = self::findRootPath();
+            if ($root !== null) {
+                $logDir = $root . '/storage/logs';
+                if (!is_dir($logDir)) {
+                    @mkdir($logDir, 0775, true);
                 }
-            } catch (\Exception $e) {
-                error_log(self::class
-                    . ' Warning: Failed to configure Monolog handler. '
-                    . $e->getMessage());
+                $logger->pushHandler(
+                    new \Monolog\Handler\StreamHandler($logDir . '/app.log')
+                );
             }
-        } else {
-            self::$logger = new NullLogger();
+        } catch (\Throwable $e) {
+            error_log(self::class . ': failed to configure handler — ' . $e->getMessage());
         }
+
+        self::$root = $logger;
     }
 
     private static function findRootPath(): ?string
     {
         try {
-            $reflection = new \ReflectionClass(\Composer\Autoload\ClassLoader::class);
-
-            $classLoaderFile = $reflection->getFileName();
-            if ($classLoaderFile === false) {
-                return null;
-            }
-
-            $vendorDir = dirname($classLoaderFile, 2);
-            $projectRoot = dirname($vendorDir);
-
-            if (is_dir($projectRoot)) {
-                return $projectRoot;
-            }
-        } catch (\ReflectionException $e) {
+            $file = (new \ReflectionClass(\Composer\Autoload\ClassLoader::class))->getFileName();
+            if ($file === false) return null;
+            $root = dirname($file, 3);
+            return is_dir($root) ? $root : null;
+        } catch (\Throwable) {
             return null;
         }
-
-        return null;
     }
 }

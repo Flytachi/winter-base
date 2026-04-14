@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Flytachi\Winter\Base;
 
+use Flytachi\Winter\Base\Exception\DebugDumpException;
+
 final class DebugDump
 {
     private function __construct()
@@ -12,11 +14,7 @@ final class DebugDump
 
     public static function dump(mixed ...$values): never
     {
-        if (PHP_SAPI === 'cli') {
-            self::dumpCli(...$values);
-        } else {
-            self::dumpWeb(...$values);
-        }
+        throw new DebugDumpException(self::info(), $values);
     }
 
     public static function dumpCli(mixed ...$values): never
