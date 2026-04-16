@@ -15,7 +15,7 @@ final class DebugDump
     public static function dump(mixed ...$values): never
     {
         if (Runtime::isSwooleCoroutine()) {
-            throw new DebugDumpException(self::info(), $values);
+            throw new DebugDumpException(self::info(2), $values);
         } elseif (Runtime::isConsole()) {
             self::dumpCli(...$values);
         } else {
@@ -97,11 +97,11 @@ final class DebugDump
         die();
     }
 
-    private static function info(): array
+    private static function info(int $backtraceLine = 3): array
     {
         $backtrace = debug_backtrace();
-        $line = $backtrace[3]['line'];
-        $file = $backtrace[3]['file'];
+        $line = $backtrace[$backtraceLine]['line'];
+        $file = $backtrace[$backtraceLine]['file'];
 
         defined('WINTER_STARTUP_TIME') or define('WINTER_STARTUP_TIME', microtime(true));
         if (WINTER_STARTUP_TIME !== null) {
