@@ -14,7 +14,7 @@ final class DebugDump
 
     public static function dump(mixed ...$values): never
     {
-        if (Runtime::isAsync()) {
+        if (Runtime::isSwooleCoroutine()) {
             throw new DebugDumpException(self::info(), $values);
         } elseif (Runtime::isConsole()) {
             self::dumpCli(...$values);
