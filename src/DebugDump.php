@@ -86,7 +86,10 @@ final class DebugDump
         echo    '</pre>';
         echo    '<hr style="border: 1px solid #999999;">';
         echo    '<div style="display: flex;justify-content: space-between;">';
-        echo        '<span style="float: left;color: #9e9e9e;font-weight: bold;">Memory ' . $info['memory'] . '</span>';
+        echo        '<span style="float: left;color: #9e9e9e;font-weight: bold;">';
+        echo            '<em>(' . Runtime::mode()->name . ')</em>';
+        echo            ' Memory ' . $info['memory'];
+        echo        '</span>';
         echo        '<span style="float: right;color: #9e9e9e;font-style: italic;">Time ' . $info['delta'] . '</span>';
         echo    '</div>';
         echo '</div>';
