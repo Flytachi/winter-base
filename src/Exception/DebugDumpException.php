@@ -10,7 +10,7 @@ final class DebugDumpException extends \RuntimeException
         private readonly array $info,
         private readonly array $values,
     ) {
-        parent::__construct('dd()');
+        parent::__construct('Server Dump');
     }
 
     public function getInfo(): array

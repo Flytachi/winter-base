@@ -14,6 +14,10 @@ final class DebugDump
 
     public static function dump(mixed ...$values): never
     {
+//        if (PHP_SAPI === 'cli') {
+//            self::dumpCli(...$values);
+//        } else {
+//        }
         throw new DebugDumpException(self::info(), $values);
     }
 
