@@ -30,6 +30,15 @@ final class LoggerRegistry
     }
 
     /**
+     * Register a dedicated channel logger.
+     * Once set, instance($name) returns this logger directly without forking from root.
+     */
+    public static function setChannel(string $name, LoggerInterface $logger): void
+    {
+        self::$named[$name] = $logger;
+    }
+
+    /**
      * Resolve a logger by name.
      * Named loggers are cached — no allocation on repeated calls.
      */
