@@ -6,7 +6,6 @@ namespace Flytachi\Winter\Base;
 
 use Closure;
 use Flytachi\Winter\Base\Exception\MaxAttemptsExceededException;
-use Flytachi\Winter\Base\Log\LoggerRegistry;
 use LogicException;
 
 /**
@@ -39,19 +38,19 @@ class Iteration
         float $backoffMultiplier = 1.0,
         string $exceptionClass = \Throwable::class
     ): mixed {
-        $logger = LoggerRegistry::instance('Iteration');
+//        $logger = LoggerRegistry::instance('Iteration');
         $label = self::callableName($func);
         $attempts = 0;
-        $logger->debug("callThrow: Start [attempt:{$maxAttempts}] {$label}");
+//        $logger->debug("callThrow: Start [attempt:{$maxAttempts}] {$label}");
         $currentSleep = $sleepSecond;
         while ($attempts < $maxAttempts) {
             $attempts++;
             try {
-                $logger->debug("callThrow: Calling [attempt:{$attempts}] {$label}");
+//                $logger->debug("callThrow: Calling [attempt:{$attempts}] {$label}");
                 return $func($attempts);
             } catch (\Throwable $error) {
-                $logger->debug("callThrow: Throw [attempt:{$attempts}] -"
-                    . $error->getMessage() . PHP_EOL . $error->getTraceAsString());
+//                $logger->debug("callThrow: Throw [attempt:{$attempts}] -"
+//                    . $error->getMessage() . PHP_EOL . $error->getTraceAsString());
 
                 if ($error instanceof $exceptionClass) {
                     if ($attempts == $maxAttempts) {

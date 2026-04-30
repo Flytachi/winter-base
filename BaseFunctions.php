@@ -254,7 +254,7 @@ if (!function_exists('timezoneToOffset')) {
             $tz = new \DateTimeZone($timezone);
             $dt = new \DateTime('now', $tz);
             return $dt->format('P');
-        } catch (DateInvalidTimeZoneException|DateMalformedStringException $e) {
+        } catch (DateInvalidTimeZoneException | DateMalformedStringException $e) {
             return null;
         }
     }
