@@ -16,7 +16,7 @@ namespace Flytachi\Winter\Base;
  * - `transKirilToLatin(string $strKiril): string`: Transliterates a Cyrillic string to a Latin string.
  * - `mapArrayByColumnValue(array $array, string|int $column): array`: Maps an array by a specified column value.
  *
- * @version 2.0
+ * @version 3.0
  * @author Flytachi
  */
 final class Tool
@@ -196,5 +196,47 @@ final class Tool
     {
         return $value < 2 ? 1
             : $value * self::factorial($value - 1);
+    }
+
+    /**
+     * Converts a camelCase string to snake_case.
+     *
+     * Inserts an underscore before each uppercase letter (except the first)
+     * and lowercases the entire result.
+     *
+     * Examples:
+     * ```
+     *   camelToSnake('pName')          → 'p_name'
+     *   camelToSnake('myLongParam')    → 'my_long_param'
+     *   camelToSnake('userId')         → 'user_id'
+     * ```
+     *
+     * @param string $value camelCase string to convert.
+     * @return string snake_case representation.
+     */
+    public static function camelToSnake(string $value): string
+    {
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $value));
+    }
+
+    /**
+     * Converts a camelCase string to kebab-case.
+     *
+     * Inserts a hyphen before each uppercase letter (except the first)
+     * and lowercases the entire result.
+     *
+     * Examples:
+     * ```
+     *   camelToKebab('pName')          → 'p-name'
+     *   camelToKebab('myLongParam')    → 'my-long-param'
+     *   camelToKebab('userId')         → 'user-id'
+     * ```
+     *
+     * @param string $value camelCase string to convert.
+     * @return string kebab-case representation.
+     */
+    public static function camelToKebab(string $value): string
+    {
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $value));
     }
 }
