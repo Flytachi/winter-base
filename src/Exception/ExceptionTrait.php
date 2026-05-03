@@ -8,6 +8,17 @@ use Flytachi\Winter\Base\HttpCode;
 
 trait ExceptionTrait
 {
+    public function __construct(
+        $message = '',
+        HttpCode|string|int $code = 0,
+        ?\Throwable $previous = null
+    ) {
+        if ($code instanceof HttpCode) {
+            $code = $code->value;
+        }
+        parent::__construct($message, $code, $previous);
+    }
+
     /**
      * @throws self
      */
