@@ -119,7 +119,7 @@ if (!function_exists('flushDirectory')) {
         if (in_array($relPath, $excludedDirPaths)) {
             return;
         }
-        $files = array_diff(scandir($dirPath), array('.','..'));
+        $files = array_diff(scandir($dirPath) ?: [], array('.','..'));
 
         foreach ($files as $file) {
             if (is_file("$dirPath/$file")) {
