@@ -16,13 +16,13 @@
         "psr/log": "^3.0"
     },
     "require-dev": {
-        "monolog/monolog": "^3.0",
+        "monolog/monolog": "@stable",
         "squizlabs/php_codesniffer": "@stable"
     },
     "authors": [
         {
             "name": "Flytachi",
-            "email": "jasur.rakhmatov03@gmail.com"
+            "email": "jason.khan.x@gmail.com"
         }
     ]
 }

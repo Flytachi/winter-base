@@ -1,0 +1,4 @@
+# .gitattributes
+.gitignore     export-ignore
+.gitattributes export-ignore
+phpcs.xml      export-ignore
